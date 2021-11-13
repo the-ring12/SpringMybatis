@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>SpringMybatis</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!--spring 版本号-->
+        <spring.version>5.0.5.RELEASE</spring.version>
+        <!--mybatis 版本号-->
+        <mybatis.version>3.2.4</mybatis.version>
+        <servlet-api.version>2.5</servlet-api.version>
+    </properties>
+
+    <dependencies>
+        <!-- spring start -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- spring end -->
+
+        <!--mybatis核Start-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
+        <!--mybatis/spring 包-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!--mybatis核End-->
+
+        <!--  Junit-Start -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <!--  Junit-End  -->
+
+        <!--  slf4j日志-Start  -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.8.0-alpha0</version>
+            <scope>test</scope>
+        </dependency>
+        <!--  slf4j日志-End  -->
+
+        <!--  j2ee相关包 servlet、jsp、jstl-Star  -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!--  j2ee相关包 servlet、jsp、jstl-End  -->
+
+        <!-- 数据库连接池相关 -Start -->
+        <!-- 导入dbcp的jar包，用来在applicationContext.xml中配置数据库 -->
+        <!--  dbcp  -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <!-- c3p0 -->
+        <!--    <dependency>-->
+        <!--      <groupId>com.mchange</groupId>-->
+        <!--      <artifactId>c3p0</artifactId>-->
+        <!--      <version>0.9.5.2</version>-->
+        <!--    </dependency>-->
+
+        <!-- druid   -->
+        <!--    <dependency>-->
+        <!--      <groupId>com.alibaba</groupId>-->
+        <!--      <artifactId>druid</artifactId>-->
+        <!--      <version>1.1.21</version>-->
+        <!--    </dependency>-->
+        <!-- 数据库连接池相关 End -->
+
+        <!--MySQL 驱动包-Start-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.25</version>
+        </dependency>
+        <!--MySQL 驱动包-End-->
+
+        <!-- fastJson- Json序列化工具 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.75</version>
+        </dependency>
+        <!-- fastJson- Json序列化工具 -->
+
+        <!-- tomcatmaven启动插件 -Start -->
+        <!-- 将tomcat 内嵌到 web项目中，这样可以直接运行 webapp项目。-->
+        <!-- 跟类似spring boot 项目一样，不需要再部署到额外的tomcat，直接就可以运行了。-->
+        <!-- 这里需要注意，第一次导入依赖的时候打开这里的依赖注释，后面要把这里注释掉，要不然会冲突  -->
+        <!--    <dependency>-->
+        <!--      <groupId>org.apache.tomcat.maven</groupId>-->
+        <!--      <artifactId>tomcat7-maven-plugin</artifactId>-->
+        <!--      <version>2.2</version>-->
+        <!--    </dependency>-->
+        <!--    <dependency>-->
+        <!--      <groupId>org.apache.maven.plugins</groupId>-->
+        <!--      <artifactId>maven-compiler-plugin</artifactId>-->
+        <!--      <version>3.3</version>-->
+        <!--    </dependency>-->
+        <!-- tomcatmaven启动插件 -->
+
+        <!-- 偷懒神器-Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--  偷懒神器-Lombok  -->
+
+    </dependencies>
+
+<!--    <build>-->
+<!--        <plugins>-->
+<!--&lt;!&ndash;            <plugin>&ndash;&gt;-->
+<!--&lt;!&ndash;                <groupId>org.apache.tomcat.maven</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                <artifactId>tomcat7-maven-plugin</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                <version>2.2</version>&ndash;&gt;-->
+<!--&lt;!&ndash;                <configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;                    &lt;!&ndash;项目访问路径。当前配置的访问是localhost:9090/, &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                    &lt;!&ndash;如果配置是/aa，则访问路径为localhost:9090/aa &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                    <path>/</path>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <port>9090</port>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <uriEncoding>UTF-8</uriEncoding>&ndash;&gt;-->
+<!--&lt;!&ndash;                </configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;            </plugin>&ndash;&gt;-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>3.8.1</version>-->
+<!--                <configuration>-->
+<!--                    <source>1.8</source>-->
+<!--                    <target>1.8</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--        &lt;!&ndash; 静态资源导出问题  &ndash;&gt;-->
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/java</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.properties</include>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                </includes>-->
+<!--                <filtering>false</filtering>-->
+<!--            </resource>-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.properties</include>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                </includes>-->
+<!--                <filtering>false</filtering>-->
+<!--            </resource>-->
+<!--        </resources>-->
+<!--    </build>-->
+
+
+
+</project>

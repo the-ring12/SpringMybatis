@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.the_ring.mapper.UserMapper">
+    <resultMap id="userResult" type="com.the_ring.pojo.User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+    </resultMap>
+
+    <insert id="addUser" parameterType="com.the_ring.pojo.User">
+        insert into user(name, age, sex) value (#{name}, #{age}, #{sex})
+    </insert>
+
+    <delete id="delUserById" parameterType="com.the_ring.pojo.User">
+        delete from user where id=#{id}
+    </delete>
+
+    <select id="findAllUser" resultMap="userResult">
+        select * from user
+    </select>
+</mapper>
