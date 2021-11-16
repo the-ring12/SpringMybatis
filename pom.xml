@@ -164,6 +164,18 @@
         </dependency>
         <!-- fastJson- Json序列化工具 -->
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+
         <!-- tomcatmaven启动插件 -Start -->
         <!-- 将tomcat 内嵌到 web项目中，这样可以直接运行 webapp项目。-->
         <!-- 跟类似spring boot 项目一样，不需要再部署到额外的tomcat，直接就可以运行了。-->

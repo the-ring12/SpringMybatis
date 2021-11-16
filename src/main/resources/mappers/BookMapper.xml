@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.the_ring.mapper.BookMapper">
+    <insert id="addBook" parameterType="com.the_ring.domain.Book">
+        insert into book_info (name, author, publish, ISBN, introduct, language, price, pubdate, classid, pressmark, state)
+        values (#{name}, #{author}, #{publish}, #{isbn}, #{introduction}, #{language}, #{price},#{pubdate}, #{classId}, #{pressmark}, #{state})
+    </insert>
+    <update id="editBook" parameterType="com.the_ring.domain.Book">
+        update book_info set name= #{name} ,author= #{author} ,publish= #{publish} ,ISBN= ${isbn} ,introduction= #{introduction} ,language= #{language} ,price= #{price} ,pubdate= #{pubdate} ,class_id= #{classId},pressmark= #{pressmark} ,state= #{state}
+        where book_id= #{bookId}
+    </update>
+    <delete id="deleteBook" parameterType="long">
+        delete from book_info where book_id=#{book_Id}
+    </delete>
+
+    <select id="matchBook" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT count(*) FROM book_info WHERE book_id like #{sw}  or name like #{sw}
+    </select>
+    <select id="queryBook" resultType="com.the_ring.domain.Book" parameterType="java.lang.String">
+        SELECT * FROM book_info WHERE book_id like  ?  or name like ?
+    </select>
+    <select id="getAllBooks" resultType="com.the_ring.domain.Book">
+        SELECT * FROM book_info
+    </select>
+    <select id="getBook" resultType="com.the_ring.domain.Book" parameterType="java.lang.Long">
+        SELECT * FROM book_info where book_id = #{bookId}
+    </select>
+</mapper>

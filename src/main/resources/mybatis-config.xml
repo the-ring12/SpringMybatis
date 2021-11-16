@@ -16,7 +16,8 @@
     <!-- 所在的程序【目录层级】要一致，不然扫描不到-->
     <mappers>
         <!--        <mapper resource="mapper/UserMapper.xml"/>-->
-        <package name="com.the_ring.mapper"/>
+        <package name="com.the_ring.mappers"/>
     </mappers>
+
 
 </configuration>

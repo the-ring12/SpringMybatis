@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.the_ring.mapper.LendMapper">
+
+    <update id="bookReturnOne" parameterType="long">
+        UPDATE lend_list SET back_date = #{date} WHERE book_id = #{book_id} AND back_date is NULL
+    </update>
+    <update id="bookReturnTwo" parameterType="long">
+        UPDATE book_info SET state = 1 WHERE book_id = #{bookId}
+    </update>
+    <update id="bookLendTwo" parameterType="long">
+        UPDATE book_info SET state = 0 WHERE book_id = #{bookId}
+    </update>
+    <insert id="bookLendOne">
+        INSERT INTO lend_list (book_id,reader_id,lend_date) VALUES ( #{book_id} , #{reader_id}, #{date} )
+    </insert>
+    <select id="lendList" resultType="com.the_ring.domain.Lend">
+        SELECT * FROM lend_list
+    </select>
+    <select id="myLendList" resultType="com.the_ring.domain.Lend" parameterType="int">
+        SELECT * FROM lend_list WHERE reader_id = #{readerId}
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.the_ring.mapper.ReaderCardMapper">
+    <insert id="addReaderCard">
+        INSERT INTO reader_card (reader_id,name) values (#{reader_id}, #{name})
+    </insert>
+    <update id="rePassword">
+        UPDATE reader_card set passwd = #{param2} where reader_id = #{param1}
+    </update>
+    <update id="updateName">
+        UPDATE reader_card set name = #{param2} where reader_id = #{param1}
+    </update>
+
+
+    <select id="getMatchCount" resultType="java.lang.Integer">
+        select count(*) from reader_card where reader_id = #{reader_id} and passwd = #{password}
+    </select>
+    <select id="findReaderByReaderId" resultType="com.the_ring.domain.ReaderCard">
+        select reader_id, name, passwd, card_state from reader_card where reader_id = #{userId}
+    </select>
+</mapper>

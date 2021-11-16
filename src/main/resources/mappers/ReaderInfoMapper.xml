@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.the_ring.mapper.ReaderInfoMapper">
+    <insert id="addReaderInfo" parameterType="com.the_ring.domain.ReaderInfo">
+        INSERT INTO reader_info VALUES #{readerInfo}
+    </insert>
+    <update id="editReaderInfo" parameterType="com.the_ring.domain.ReaderInfo">
+        UPDATE reader_info set #{rederInfo},telcode = ? where reader_id = #{reader_id}
+    </update>
+    <delete id="deleteReaderInfo" parameterType="int">
+        DELETE FROM reader_info where reader_id = #{reader_id}
+    </delete>
+    <select id="getAllReaderInfo" resultType="com.the_ring.domain.ReaderInfo">
+        SELECT * FROM reader_info
+    </select>
+    <select id="findReaderInfoByReaderId" resultType="com.the_ring.domain.ReaderInfo" parameterType="int">
+SELECT * FROM reader_info where reader_id = #{reader_id}
+    </select>
+</mapper>
