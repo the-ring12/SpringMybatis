@@ -81,7 +81,7 @@
             <form action="reader_add_do.html" method="post" id="readeredit" >
                 <div class="input-group">
                     <span  class="input-group-addon">读者证号</span>
-                    <input  type="text" class="form-control" name="readerId" id="readerId" ">
+                    <input  type="text" class="form-control" name="readerId" id="readerId">
                 </div>
 
                 <div class="input-group">

@@ -203,51 +203,25 @@
 
     </dependencies>
 
-<!--    <build>-->
-<!--        <plugins>-->
-<!--&lt;!&ndash;            <plugin>&ndash;&gt;-->
-<!--&lt;!&ndash;                <groupId>org.apache.tomcat.maven</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;                <artifactId>tomcat7-maven-plugin</artifactId>&ndash;&gt;-->
-<!--&lt;!&ndash;                <version>2.2</version>&ndash;&gt;-->
-<!--&lt;!&ndash;                <configuration>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash;项目访问路径。当前配置的访问是localhost:9090/, &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash;如果配置是/aa，则访问路径为localhost:9090/aa &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <path>/</path>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <port>9090</port>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <uriEncoding>UTF-8</uriEncoding>&ndash;&gt;-->
-<!--&lt;!&ndash;                </configuration>&ndash;&gt;-->
-<!--&lt;!&ndash;            </plugin>&ndash;&gt;-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>3.8.1</version>-->
-<!--                <configuration>-->
-<!--                    <source>1.8</source>-->
-<!--                    <target>1.8</target>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--        &lt;!&ndash; 静态资源导出问题  &ndash;&gt;-->
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <directory>src/main/java</directory>-->
-<!--                <includes>-->
-<!--                    <include>**/*.properties</include>-->
-<!--                    <include>**/*.xml</include>-->
-<!--                </includes>-->
-<!--                <filtering>false</filtering>-->
-<!--            </resource>-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                <includes>-->
-<!--                    <include>**/*.properties</include>-->
-<!--                    <include>**/*.xml</include>-->
-<!--                </includes>-->
-<!--                <filtering>false</filtering>-->
-<!--            </resource>-->
-<!--        </resources>-->
-<!--    </build>-->
-
-
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
 
 </project>

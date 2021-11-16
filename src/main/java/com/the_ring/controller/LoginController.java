@@ -2,7 +2,7 @@ package com.the_ring.controller;
 
 import com.the_ring.domain.Admin;
 import com.the_ring.domain.ReaderCard;
-import com.the_ring.service.LoginService;
+import com.the_ring.operate.LoginOperate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +19,11 @@ import java.util.HashMap;
 @Controller
 public class LoginController {
 
-    private LoginService loginService;
-
+    private LoginOperate loginOperate;
 
     @Autowired
-    public void setLoginService(LoginService loginService) {
-        this.loginService = loginService;
+    public void setLoginOperate(LoginOperate loginOperate) {
+        this.loginOperate = loginOperate;
     }
 
     //负责处理login.html请求
@@ -50,8 +49,8 @@ public class LoginController {
 
         int id = Integer.parseInt(request.getParameter("id"));
         String passwd = request.getParameter("passwd");
-        boolean isReader = loginService.hasMatchReader(id, passwd);
-        boolean isAdmin = loginService.hasMatchAdmin(id, passwd);
+        boolean isReader = loginOperate.hasMatchReader(id, passwd);
+        boolean isAdmin = loginOperate.hasMatchAdmin(id, passwd);
         HashMap<String, String> res = new HashMap<String, String>();
         if (isAdmin == false && isReader == false) {
             res.put("stateCode", "0");
@@ -64,7 +63,7 @@ public class LoginController {
             res.put("stateCode", "1");
             res.put("msg", "管理员登陆成功！");
         } else {
-            ReaderCard readerCard = loginService.findReaderCardByUserId(id);
+            ReaderCard readerCard = loginOperate.findReaderCardByUserId(id);
             request.getSession().setAttribute("readercard", readerCard);
             res.put("stateCode", "2");
             res.put("msg", "读者登陆成功！");
@@ -99,10 +98,10 @@ public class LoginController {
 
         Admin admin = (Admin) request.getSession().getAttribute("admin");
         int id = admin.getAdminId();
-        String passwd = loginService.getAdminPasswd(id);
+        String passwd = loginOperate.getAdminPasswd(id);
 
         if (passwd.equals(oldPasswd)) {
-            boolean succ = loginService.adminRePasswd(id, newPasswd);
+            boolean succ = loginOperate.adminRePasswd(id, newPasswd);
             if (succ) {
 
                 redirectAttributes.addFlashAttribute("succ", "密码修改成功！");

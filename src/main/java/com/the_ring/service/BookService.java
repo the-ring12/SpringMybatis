@@ -1,50 +1,24 @@
 package com.the_ring.service;
 
-import com.the_ring.dao.BookDao;
 import com.the_ring.domain.Book;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class BookService {
+public interface BookService {
 
-    
-    private BookDao bookDao;
+    int matchBook(String searchWord);
 
-    @Autowired
-    public void setBookDao(BookDao bookDao) {
-        this.bookDao = bookDao;
-    }
+    List<Book> queryBook(String sw);
 
-    public ArrayList<Book> queryBook(String searchWord){
-        return  bookDao.queryBook(searchWord);
-    }
+    List<Book> getAllBooks();
 
-    public ArrayList<Book> getAllBooks(){
-        return bookDao.getAllBooks();
-    }
+    int deleteBook(long bookId);
 
-    public int deleteBook(long bookId){
-        return bookDao.deleteBook(bookId);
-    }
+    int addBook(Book book);
 
-    public boolean matchBook(String searchWord){
-        return bookDao.matchBook(searchWord)>0;
-    }
+    Book getBook(Long bookId);
 
-    public boolean addBook(Book book){
-        return bookDao.addBook(book)>0;
-    }
-
-    public Book getBook(Long bookId){
-        Book book= bookDao.getBook(bookId);
-        return book;
-    }
-    public boolean editBook(Book book){
-        return bookDao.editBook(book)>0;
-    }
+    int editBook(Book book);
 
 }

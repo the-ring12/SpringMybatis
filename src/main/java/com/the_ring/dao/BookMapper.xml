@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.the_ring.mapper.BookMapper">
+<mapper namespace="com.the_ring.dao.BookMapper">
     <insert id="addBook" parameterType="com.the_ring.domain.Book">
-        insert into book_info (name, author, publish, ISBN, introduct, language, price, pubdate, classid, pressmark, state)
+        insert into book_info (name, author, publish, ISBN, introduction, language, price, pubdate, class_id, pressmark, state)
         values (#{name}, #{author}, #{publish}, #{isbn}, #{introduction}, #{language}, #{price},#{pubdate}, #{classId}, #{pressmark}, #{state})
     </insert>
     <update id="editBook" parameterType="com.the_ring.domain.Book">
@@ -21,7 +21,7 @@
         SELECT count(*) FROM book_info WHERE book_id like #{sw}  or name like #{sw}
     </select>
     <select id="queryBook" resultType="com.the_ring.domain.Book" parameterType="java.lang.String">
-        SELECT * FROM book_info WHERE book_id like  ?  or name like ?
+        SELECT * FROM book_info WHERE book_id like  #{sw}  or name like #{sw}
     </select>
     <select id="getAllBooks" resultType="com.the_ring.domain.Book">
         SELECT * FROM book_info

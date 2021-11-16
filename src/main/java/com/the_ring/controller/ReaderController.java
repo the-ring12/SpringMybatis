@@ -2,9 +2,9 @@ package com.the_ring.controller;
 
 import com.the_ring.domain.ReaderCard;
 import com.the_ring.domain.ReaderInfo;
-import com.the_ring.service.LoginService;
-import com.the_ring.service.ReaderCardService;
-import com.the_ring.service.ReaderInfoService;
+import com.the_ring.operate.LoginOperate;
+import com.the_ring.operate.ReaderCardOperate;
+import com.the_ring.operate.ReaderOperate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,27 +20,28 @@ import java.util.Date;
 @Controller
 public class ReaderController {
 
-    private ReaderInfoService readerInfoService;
-    @Autowired
-    public void setReaderInfoService(ReaderInfoService readerInfoService) {
-        this.readerInfoService = readerInfoService;
-    }   private LoginService loginService;
-
+    private ReaderOperate readerOperate;
+    private LoginOperate loginOperate;
+    private ReaderCardOperate readerCardOperate;
 
     @Autowired
-    public void setLoginService(LoginService loginService) {
-        this.loginService = loginService;
+    public void setReaderOperate(ReaderOperate readerOperate) {
+        this.readerOperate = readerOperate;
     }
-    private ReaderCardService readerCardService;
 
     @Autowired
-    public void setReaderCardService(ReaderCardService readerCardService) {
-        this.readerCardService = readerCardService;
+    public void setLoginOperate(LoginOperate loginOperate) {
+        this.loginOperate = loginOperate;
+    }
+
+    @Autowired
+    public void setReaderCardOperate(ReaderCardOperate readerCardOperate) {
+        this.readerCardOperate = readerCardOperate;
     }
 
     @RequestMapping("allreaders.html")
     public ModelAndView allBooks(){
-        ArrayList<ReaderInfo> readers=readerInfoService.readerInfos();
+        ArrayList<ReaderInfo> readers= (ArrayList<ReaderInfo>) readerOperate.readerInfos();
         ModelAndView modelAndView=new ModelAndView("admin_readers");
         modelAndView.addObject("readers",readers);
         return modelAndView;
@@ -49,7 +50,7 @@ public class ReaderController {
     @RequestMapping("reader_delete.html")
     public String readerDelete(HttpServletRequest request, RedirectAttributes redirectAttributes){
         int readerId= Integer.parseInt(request.getParameter("readerId"));
-        boolean success=readerInfoService.deleteReaderInfo(readerId);
+        boolean success=readerOperate.deleteReaderInfo(readerId);
 
         if(success){
             redirectAttributes.addFlashAttribute("succ", "删除成功！");
@@ -63,7 +64,7 @@ public class ReaderController {
     @RequestMapping("/reader_info.html")
     public ModelAndView toReaderInfo(HttpServletRequest request) {
         ReaderCard readerCard=(ReaderCard) request.getSession().getAttribute("readercard");
-        ReaderInfo readerInfo=readerInfoService.getReaderInfo(readerCard.getReaderId());
+        ReaderInfo readerInfo=readerOperate.getReaderInfo(readerCard.getReaderId());
         ModelAndView modelAndView=new ModelAndView("reader_info");
         modelAndView.addObject("readerinfo",readerInfo);
         return modelAndView;
@@ -71,7 +72,7 @@ public class ReaderController {
     @RequestMapping("reader_edit.html")
     public ModelAndView readerInfoEdit(HttpServletRequest request){
         int readerId= Integer.parseInt(request.getParameter("readerId"));
-        ReaderInfo readerInfo=readerInfoService.getReaderInfo(readerId);
+        ReaderInfo readerInfo=readerOperate.getReaderInfo(readerId);
         ModelAndView modelAndView=new ModelAndView("admin_reader_edit");
         modelAndView.addObject("readerInfo",readerInfo);
         return modelAndView;
@@ -80,10 +81,10 @@ public class ReaderController {
     @RequestMapping("reader_edit_do.html")
     public String readerInfoEditDo(HttpServletRequest request, String name, String sex, String birth, String address, String telcode, RedirectAttributes redirectAttributes){
         int readerId= Integer.parseInt(request.getParameter("id"));
-        ReaderCard readerCard = loginService.findReaderCardByUserId(readerId);
+        ReaderCard readerCard = loginOperate.findReaderCardByUserId(readerId);
         String oldName=readerCard.getName();
         if(!oldName.equals(name)){
-            boolean succo=readerCardService.updateName(readerId,name);
+            boolean succo=readerCardOperate.updateName(readerId,name);
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
             Date nbirth=new Date();
             try{
@@ -99,7 +100,7 @@ public class ReaderController {
             readerInfo.setReaderId(readerId);
             readerInfo.setTelcode(telcode);
             readerInfo.setSex(sex);
-            boolean succ=readerInfoService.editReaderInfo(readerInfo);
+            boolean succ=readerOperate.editReaderInfo(readerInfo);
             if(succo&&succ){
                 redirectAttributes.addFlashAttribute("succ", "读者信息修改成功！");
                 return "redirect:/allreaders.html";
@@ -126,7 +127,7 @@ public class ReaderController {
             readerInfo.setTelcode(telcode);
             readerInfo.setSex(sex);
 
-            boolean succ=readerInfoService.editReaderInfo(readerInfo);
+            boolean succ=readerOperate.editReaderInfo(readerInfo);
             if(succ){
                 redirectAttributes.addFlashAttribute("succ", "读者信息修改成功！");
                 return "redirect:/allreaders.html";
@@ -159,9 +160,9 @@ public class ReaderController {
 
         if (newPasswd.equals(reNewPasswd)){
             if(passwd.equals(oldPasswd)){
-                boolean succ=readerCardService.updatePasswd(readerId,newPasswd);
+                boolean succ=readerCardOperate.updatePasswd(readerId,newPasswd);
                 if (succ){
-                    ReaderCard readerCardNew = loginService.findReaderCardByUserId(readerId);
+                    ReaderCard readerCardNew = loginOperate.findReaderCardByUserId(readerId);
                     request.getSession().setAttribute("readercard", readerCardNew);
                     redirectAttributes.addFlashAttribute("succ", "密码修改成功！");
                     return "redirect:/reader_repasswd.html";
@@ -204,9 +205,9 @@ public class ReaderController {
         readerInfo.setReaderId(readerId);
         readerInfo.setTelcode(telcode);
         readerInfo.setSex(sex);
-        boolean succ=readerInfoService.addReaderInfo(readerInfo);
-        boolean succc=readerCardService.addReaderCard(readerInfo);
-        ArrayList<ReaderInfo> readers=readerInfoService.readerInfos();
+        boolean succ=readerOperate.addReaderInfo(readerInfo);
+        boolean succc=readerCardOperate.addReaderCard(readerInfo);
+        ArrayList<ReaderInfo> readers= (ArrayList<ReaderInfo>) readerOperate.readerInfos();
         if (succ&&succc){
             redirectAttributes.addFlashAttribute("succ", "添加读者信息成功！");
             return "redirect:/allreaders.html";
@@ -219,7 +220,7 @@ public class ReaderController {
     @RequestMapping("reader_info_edit.html")
     public ModelAndView readerInfoEditReader(HttpServletRequest request){
         ReaderCard readerCard=(ReaderCard) request.getSession().getAttribute("readercard");
-        ReaderInfo readerInfo=readerInfoService.getReaderInfo(readerCard.getReaderId());
+        ReaderInfo readerInfo=readerOperate.getReaderInfo(readerCard.getReaderId());
         ModelAndView modelAndView=new ModelAndView("reader_info_edit");
         modelAndView.addObject("readerinfo",readerInfo);
         return modelAndView;
@@ -229,7 +230,7 @@ public class ReaderController {
     public String readerInfoEditDoReader(HttpServletRequest request, String name, String sex, String birth, String address, String telcode, RedirectAttributes redirectAttributes){
         ReaderCard readerCard=(ReaderCard) request.getSession().getAttribute("readercard");
         if (!readerCard.getName().equals(name)){
-            boolean succo=readerCardService.updateName(readerCard.getReaderId(),name);
+            boolean succo=readerCardOperate.updateName(readerCard.getReaderId(),name);
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
             Date nbirth=new Date();
             try{
@@ -247,9 +248,9 @@ public class ReaderController {
             readerInfo.setTelcode(telcode);
             readerInfo.setSex(sex);
 
-            boolean succ=readerInfoService.editReaderInfo(readerInfo);
+            boolean succ=readerOperate.editReaderInfo(readerInfo);
             if(succ&&succo){
-                ReaderCard readerCardNew = loginService.findReaderCardByUserId(readerCard.getReaderId());
+                ReaderCard readerCardNew = loginOperate.findReaderCardByUserId(readerCard.getReaderId());
                 request.getSession().setAttribute("readercard", readerCardNew);
                 redirectAttributes.addFlashAttribute("succ", "信息修改成功！");
                 return "redirect:/reader_info.html";
@@ -278,9 +279,9 @@ public class ReaderController {
             readerInfo.setTelcode(telcode);
             readerInfo.setSex(sex);
 
-            boolean succ=readerInfoService.editReaderInfo(readerInfo);
+            boolean succ=readerOperate.editReaderInfo(readerInfo);
             if(succ){
-                ReaderCard readerCardNew = loginService.findReaderCardByUserId(readerCard.getReaderId());
+                ReaderCard readerCardNew = loginOperate.findReaderCardByUserId(readerCard.getReaderId());
                 request.getSession().setAttribute("readercard", readerCardNew);
                 redirectAttributes.addFlashAttribute("succ", "信息修改成功！");
                 return "redirect:/reader_info.html";

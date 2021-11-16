@@ -3,13 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--MATCH_ADMIN_SQL="SELECT COUNT(*) FROM admin where admin_id = ? and password = ? ";-->
-<!--RE_PASSWORD_SQL="UPDATE admin set password = ? where admin_id = ? ";-->
-<!--GET_PASSWD_SQL="SELECT password from admin where admin_id = ?";-->
+<mapper namespace="com.the_ring.dao.AdminMapper">
 
-<mapper namespace="com.the_ring.mapper.AdminMapper">
-
-    <select id="getMatchCount" parameterType="com.the_ring.domain.Admin" resultType="int">
+    <select id="getMatchCount" parameterType="com.the_ring.domain.Admin" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM admin where admin_id =#{admin_id} and password =#{password}
     </select>
 

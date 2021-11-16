@@ -1,7 +1,7 @@
 package com.the_ring.controller;
 
 import com.the_ring.domain.Book;
-import com.the_ring.service.BookService;
+import com.the_ring.operate.BookOperate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,18 +13,19 @@ import java.util.ArrayList;
 
 @Controller
 public class BookController {
-    private BookService bookService;
+    
+    private BookOperate bookOperate;
 
     @Autowired
-    public void setBookService(BookService bookService) {
-        this.bookService = bookService;
+    public void setBookOperate(BookOperate bookOperate) {
+        this.bookOperate = bookOperate;
     }
 
     @RequestMapping("/querybook.html")
     public ModelAndView queryBookDo(HttpServletRequest request, String searchWord){
-        boolean exist=bookService.matchBook(searchWord);
+        boolean exist=bookOperate.matchBook(searchWord);
         if (exist){
-            ArrayList<Book> books = bookService.queryBook(searchWord);
+            ArrayList<Book> books = (ArrayList<Book>) bookOperate.queryBook(searchWord);
             ModelAndView modelAndView = new ModelAndView("admin_books");
             modelAndView.addObject("books",books);
             return modelAndView;
@@ -40,9 +41,9 @@ public class BookController {
     }
     @RequestMapping("/reader_querybook_do.html")
     public String readerQueryBookDo(HttpServletRequest request, String searchWord, RedirectAttributes redirectAttributes){
-        boolean exist=bookService.matchBook(searchWord);
+        boolean exist=bookOperate.matchBook(searchWord);
         if (exist){
-            ArrayList<Book> books = bookService.queryBook(searchWord);
+            ArrayList<Book> books = (ArrayList<Book>) bookOperate.queryBook(searchWord);
             redirectAttributes.addFlashAttribute("books", books);
             return "redirect:/reader_querybook.html";
         }
@@ -55,7 +56,7 @@ public class BookController {
 
     @RequestMapping("/allbooks.html")
     public ModelAndView allBook(){
-        ArrayList<Book> books=bookService.getAllBooks();
+        ArrayList<Book> books= (ArrayList<Book>) bookOperate.getAllBooks();
         ModelAndView modelAndView=new ModelAndView("admin_books");
         modelAndView.addObject("books",books);
         return modelAndView;
@@ -63,7 +64,7 @@ public class BookController {
     @RequestMapping("/deletebook.html")
     public String deleteBook(HttpServletRequest request, RedirectAttributes redirectAttributes){
         long bookId=Integer.parseInt(request.getParameter("bookId"));
-        int res=bookService.deleteBook(bookId);
+        int res=bookOperate.deleteBook(bookId);
 
         if (res==1){
             redirectAttributes.addFlashAttribute("succ", "图书删除成功！");
@@ -98,8 +99,8 @@ public class BookController {
         book.setLanguage(bookAddCommand.getLanguage());
 
 
-        boolean succ=bookService.addBook(book);
-        ArrayList<Book> books=bookService.getAllBooks();
+        boolean succ=bookOperate.addBook(book);
+        ArrayList<Book> books= (ArrayList<Book>) bookOperate.getAllBooks();
         if (succ){
             redirectAttributes.addFlashAttribute("succ", "图书添加成功！");
             return "redirect:/allbooks.html";
@@ -113,7 +114,7 @@ public class BookController {
     @RequestMapping("/updatebook.html")
     public ModelAndView bookEdit(HttpServletRequest request){
         long bookId=Integer.parseInt(request.getParameter("bookId"));
-        Book book=bookService.getBook(bookId);
+        Book book=bookOperate.getBook(bookId);
         ModelAndView modelAndView=new ModelAndView("admin_book_edit");
         modelAndView.addObject("detail",book);
         return modelAndView;
@@ -137,7 +138,7 @@ public class BookController {
         book.setLanguage(bookAddCommand.getLanguage());
 
 
-        boolean succ=bookService.editBook(book);
+        boolean succ=bookOperate.editBook(book);
         if (succ){
             redirectAttributes.addFlashAttribute("succ", "图书修改成功！");
             return "redirect:/allbooks.html";
@@ -152,7 +153,7 @@ public class BookController {
     @RequestMapping("/bookdetail.html")
     public ModelAndView bookDetail(HttpServletRequest request){
         long bookId=Integer.parseInt(request.getParameter("bookId"));
-        Book book=bookService.getBook(bookId);
+        Book book=bookOperate.getBook(bookId);
         ModelAndView modelAndView=new ModelAndView("admin_book_detail");
         modelAndView.addObject("detail",book);
         return modelAndView;
@@ -163,7 +164,7 @@ public class BookController {
     @RequestMapping("/readerbookdetail.html")
     public ModelAndView readerBookDetail(HttpServletRequest request){
         long bookId=Integer.parseInt(request.getParameter("bookId"));
-        Book book=bookService.getBook(bookId);
+        Book book=bookOperate.getBook(bookId);
         ModelAndView modelAndView=new ModelAndView("reader_book_detail");
         modelAndView.addObject("detail",book);
         return modelAndView;

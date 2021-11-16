@@ -1,7 +1,14 @@
 package com.the_ring.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReaderCard implements Serializable{
 
     private int readerId;
@@ -9,35 +16,4 @@ public class ReaderCard implements Serializable{
     private String passwd;
     private int cardState;
 
-    public void setCardState(int cardState) {
-        this.cardState = cardState;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
-    }
-
-    public void setReaderId(int readerId) {
-        this.readerId = readerId;
-    }
-
-    public int getReaderId() {
-        return readerId;
-    }
-
-    public int getCardState() {
-        return cardState;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPasswd() {
-        return passwd;
-    }
 }

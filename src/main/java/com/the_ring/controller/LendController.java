@@ -2,8 +2,8 @@ package com.the_ring.controller;
 
 import com.the_ring.domain.Book;
 import com.the_ring.domain.ReaderCard;
-import com.the_ring.service.BookService;
-import com.the_ring.service.LendService;
+import com.the_ring.operate.BookOperate;
+import com.the_ring.operate.LendOperate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,22 +14,24 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LendController {
+    
+    private BookOperate bookOperate;
+    private LendOperate lendOperate;
 
-    private LendService lendService;
     @Autowired
-    public void setLendService(LendService lendService) {
-        this.lendService = lendService;
+    public void setBookOperate(BookOperate bookOperate) {
+        this.bookOperate = bookOperate;
     }
-    private BookService bookService;
+
     @Autowired
-    public void setBookService(BookService bookService) {
-        this.bookService = bookService;
+    public void setLendOperate(LendOperate lendOperate) {
+        this.lendOperate = lendOperate;
     }
 
     @RequestMapping("/lendbook.html")
     public ModelAndView bookLend(HttpServletRequest request){
         long bookId=Integer.parseInt(request.getParameter("bookId"));
-        Book book=bookService.getBook(bookId);
+        Book book=bookOperate.getBook(bookId);
        ModelAndView modelAndView=new ModelAndView("admin_book_lend");
        modelAndView.addObject("book",book);
        return modelAndView;
@@ -38,7 +40,7 @@ public class LendController {
     @RequestMapping("/lendbookdo.html")
     public String bookLendDo(HttpServletRequest request, RedirectAttributes redirectAttributes, int readerId){
         long bookId=Integer.parseInt(request.getParameter("id"));
-        boolean lendsucc=lendService.bookLend(bookId,readerId);
+        boolean lendsucc=lendOperate.bookLend(bookId,readerId);
         if (lendsucc){
             redirectAttributes.addFlashAttribute("succ", "图书借阅成功！");
             return "redirect:/allbooks.html";
@@ -53,7 +55,7 @@ public class LendController {
     @RequestMapping("/returnbook.html")
     public String bookReturn(HttpServletRequest request, RedirectAttributes redirectAttributes){
         long bookId=Integer.parseInt(request.getParameter("bookId"));
-        boolean retSucc=lendService.bookReturn(bookId);
+        boolean retSucc=lendOperate.bookReturn(bookId);
         if (retSucc){
             redirectAttributes.addFlashAttribute("succ", "图书归还成功！");
             return "redirect:/allbooks.html";
@@ -69,14 +71,14 @@ public class LendController {
     public ModelAndView lendList(){
 
         ModelAndView modelAndView=new ModelAndView("admin_lend_list");
-        modelAndView.addObject("list",lendService.lendList());
+        modelAndView.addObject("list",lendOperate.lendList());
         return modelAndView;
     }
     @RequestMapping("/mylend.html")
     public ModelAndView myLend(HttpServletRequest request){
         ReaderCard readerCard=(ReaderCard) request.getSession().getAttribute("readercard");
         ModelAndView modelAndView=new ModelAndView("reader_lend_list");
-        modelAndView.addObject("list",lendService.myLendList(readerCard.getReaderId()));
+        modelAndView.addObject("list",lendOperate.myLendList(readerCard.getReaderId()));
         return modelAndView;
     }
 

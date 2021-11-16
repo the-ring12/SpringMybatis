@@ -1,7 +1,9 @@
-package com.the_ring.mapper;
+package com.the_ring.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface AdminMapper {
 
     /**

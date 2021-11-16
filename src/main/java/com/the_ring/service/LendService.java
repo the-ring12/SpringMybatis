@@ -1,41 +1,22 @@
 package com.the_ring.service;
 
-import com.the_ring.dao.LendDao;
-import com.the_ring.mapper.LendMapper;
 import com.the_ring.domain.Lend;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-@Service
-public class LendService {
+public interface LendService {
 
-    private LendDao lendDao;
+    int bookReturnOne(@Param("book_id") long bookId, @Param("date") Date date);
 
-    @Autowired
-    public void setLendDao(LendDao lendDao) {
-        this.lendDao = lendDao;
-    }
+    int bookReturnTwo(long bookId);
 
-    public boolean bookReturn(long bookId) {
-        Date date = new Date();
-        return lendDao.bookReturnOne(bookId, date) > 0 && lendDao.bookReturnTwo(bookId) > 0;
-    }
+    int bookLendOne(@Param("book_id") long bookId, @Param("reader_id") int readerId, @Param("date") Date date);
 
-    public boolean bookLend(long bookId, int readerId) {
-        Date date = new Date();
-        return lendDao.bookLendOne(bookId, readerId, date) > 0 && lendDao.bookLendTwo(bookId) > 0;
+    int bookLendTwo(long bookId);
 
-    }
+    ArrayList<Lend> lendList();
 
-    public ArrayList<Lend> lendList() {
-        return lendDao.lendList();
-    }
-
-    public ArrayList<Lend> myLendList(int readerId) {
-        return lendDao.myLendList(readerId);
-    }
-
+    ArrayList<Lend> myLendList(int readerId);
 }

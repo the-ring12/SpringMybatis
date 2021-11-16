@@ -1,12 +1,13 @@
-package com.the_ring.mapper;
+package com.the_ring.dao;
 
 import com.the_ring.domain.Book;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 public interface BookMapper {
 
     int matchBook(@Param("sw") String searchWord);

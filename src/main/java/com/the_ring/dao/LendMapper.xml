@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.the_ring.mapper.LendMapper">
+<mapper namespace="com.the_ring.dao.LendMapper">
 
-    <update id="bookReturnOne" parameterType="long">
+    <update id="bookReturnOne">
         UPDATE lend_list SET back_date = #{date} WHERE book_id = #{book_id} AND back_date is NULL
     </update>
     <update id="bookReturnTwo" parameterType="long">
@@ -18,10 +18,18 @@
     <insert id="bookLendOne">
         INSERT INTO lend_list (book_id,reader_id,lend_date) VALUES ( #{book_id} , #{reader_id}, #{date} )
     </insert>
-    <select id="lendList" resultType="com.the_ring.domain.Lend">
+
+    <resultMap id="lend" type="com.the_ring.domain.Lend">
+        <id property="sernum" column="sernum"/>
+        <result property="bookId" column="book_id"/>
+        <result property="readerId" column="reader_id"/>
+        <result property="lendDate" column="lend_date"/>
+        <result property="backDate" column="back_date"/>
+    </resultMap>
+    <select id="lendList" resultMap="lend">
         SELECT * FROM lend_list
     </select>
-    <select id="myLendList" resultType="com.the_ring.domain.Lend" parameterType="int">
+    <select id="myLendList" resultMap="lend" parameterType="int">
         SELECT * FROM lend_list WHERE reader_id = #{readerId}
     </select>
 </mapper>

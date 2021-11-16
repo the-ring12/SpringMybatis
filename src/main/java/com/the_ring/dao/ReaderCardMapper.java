@@ -1,11 +1,14 @@
-package com.the_ring.service;
+package com.the_ring.dao;
 
 import com.the_ring.domain.ReaderCard;
 import com.the_ring.domain.ReaderInfo;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
-public interface ReaderCardService {
+@Component
+public interface ReaderCardMapper {
 
-    int getMatchCount(int readerId, String passwd);
+    int getMatchCount(@Param("reader_id") int readerId, @Param("password") String passwd);
 
     ReaderCard findReaderByReaderId(int readerId);
 
