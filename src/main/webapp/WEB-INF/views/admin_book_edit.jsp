@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>编辑《 ${detail.name}》</title>
@@ -110,7 +111,7 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon">出版日期</span>
-                    <input type="text" class="form-control" name="pubdate" id="pubdate" value="${detail.pubdate}">
+                    <input type="month" class="form-control" name="pubdate" id="pubdate" value="<fmt:formatDate value="${detail.pubdate}" pattern="yyyy-MM"/>">
                 </div>
                 <div class="input-group">
                     <span  class="input-group-addon">分类号</span>
