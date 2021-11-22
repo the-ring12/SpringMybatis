@@ -23,10 +23,25 @@
     <select id="queryBook" resultType="com.the_ring.domain.Book" parameterType="java.lang.String">
         SELECT * FROM book_info WHERE book_id like  #{sw}  or name like #{sw}
     </select>
-    <select id="getAllBooks" resultType="com.the_ring.domain.Book">
+
+    <resultMap id="Book" type="com.the_ring.domain.Book">
+        <id property="bookId" column="book_id"></id>
+        <result property="name" column="name"></result>
+        <result property="author" column="author"></result>
+        <result property="publish" column="publish"></result>
+        <result property="isbn" column="ISBN"></result>
+        <result property="introduction" column="introduction"></result>
+        <result property="language" column="language"></result>
+        <result property="price" column="price"></result>
+        <result property="pubdate" column="pubdate"></result>
+        <result property="classId" column="class_id"></result>
+        <result property="pressmark" column="pressmark"></result>
+        <result property="state" column="state"></result>
+    </resultMap>
+    <select id="getAllBooks" resultMap="Book">
         SELECT * FROM book_info
     </select>
-    <select id="getBook" resultType="com.the_ring.domain.Book" parameterType="java.lang.Long">
+    <select id="getBook" resultMap="Book" parameterType="java.lang.Long">
         SELECT * FROM book_info where book_id = #{bookId}
     </select>
 </mapper>
