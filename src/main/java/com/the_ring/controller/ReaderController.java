@@ -5,6 +5,7 @@ import com.the_ring.domain.ReaderInfo;
 import com.the_ring.operate.LoginOperate;
 import com.the_ring.operate.ReaderCardOperate;
 import com.the_ring.operate.ReaderOperate;
+import com.the_ring.util.PageMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,9 @@ public class ReaderController {
     private ReaderCardOperate readerCardOperate;
 
     @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
     public void setReaderOperate(ReaderOperate readerOperate) {
         this.readerOperate = readerOperate;
     }
@@ -41,6 +45,9 @@ public class ReaderController {
 
     @RequestMapping("allreaders.html")
     public ModelAndView allBooks(){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         ArrayList<ReaderInfo> readers= (ArrayList<ReaderInfo>) readerOperate.readerInfos();
         ModelAndView modelAndView=new ModelAndView("admin_readers");
         modelAndView.addObject("readers",readers);
@@ -49,6 +56,9 @@ public class ReaderController {
 
     @RequestMapping("reader_delete.html")
     public String readerDelete(HttpServletRequest request, RedirectAttributes redirectAttributes){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         int readerId= Integer.parseInt(request.getParameter("readerId"));
         boolean success=readerOperate.deleteReaderInfo(readerId);
 
@@ -63,6 +73,9 @@ public class ReaderController {
     }
     @RequestMapping("/reader_info.html")
     public ModelAndView toReaderInfo(HttpServletRequest request) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         ReaderCard readerCard=(ReaderCard) request.getSession().getAttribute("readercard");
         ReaderInfo readerInfo=readerOperate.getReaderInfo(readerCard.getReaderId());
         ModelAndView modelAndView=new ModelAndView("reader_info");
@@ -71,6 +84,9 @@ public class ReaderController {
     }
     @RequestMapping("reader_edit.html")
     public ModelAndView readerInfoEdit(HttpServletRequest request){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         int readerId= Integer.parseInt(request.getParameter("readerId"));
         ReaderInfo readerInfo=readerOperate.getReaderInfo(readerId);
         ModelAndView modelAndView=new ModelAndView("admin_reader_edit");
@@ -80,6 +96,9 @@ public class ReaderController {
 
     @RequestMapping("reader_edit_do.html")
     public String readerInfoEditDo(HttpServletRequest request, String name, String sex, String birth, String address, String telcode, RedirectAttributes redirectAttributes){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         int readerId= Integer.parseInt(request.getParameter("id"));
         ReaderCard readerCard = loginOperate.findReaderCardByUserId(readerId);
         String oldName=readerCard.getName();
@@ -141,6 +160,9 @@ public class ReaderController {
 
     @RequestMapping("reader_add.html")
     public ModelAndView readerInfoAdd(){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         ModelAndView modelAndView=new ModelAndView("admin_reader_add");
         return modelAndView;
 
@@ -148,12 +170,18 @@ public class ReaderController {
     //用户功能--进入修改密码页面
     @RequestMapping("reader_repasswd.html")
     public ModelAndView readerRePasswd(){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         ModelAndView modelAndView=new ModelAndView("reader_repasswd");
         return modelAndView;
     }
     //用户功能--修改密码执行
     @RequestMapping("reader_repasswd_do.html")
     public String readerRePasswdDo(HttpServletRequest request, String oldPasswd, String newPasswd, String reNewPasswd, RedirectAttributes redirectAttributes){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         ReaderCard readerCard=(ReaderCard) request.getSession().getAttribute("readercard");
         int readerId=readerCard.getReaderId();
         String passwd=readerCard.getPasswd();
@@ -189,6 +217,9 @@ public class ReaderController {
     //管理员功能--读者信息添加
     @RequestMapping("reader_add_do.html")
     public String readerInfoAddDo(String name, String sex, String birth, String address, String telcode, int readerId, RedirectAttributes redirectAttributes){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         Date nbirth=new Date();
         try{
@@ -219,6 +250,9 @@ public class ReaderController {
 //读者功能--读者信息修改
     @RequestMapping("reader_info_edit.html")
     public ModelAndView readerInfoEditReader(HttpServletRequest request){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         ReaderCard readerCard=(ReaderCard) request.getSession().getAttribute("readercard");
         ReaderInfo readerInfo=readerOperate.getReaderInfo(readerCard.getReaderId());
         ModelAndView modelAndView=new ModelAndView("reader_info_edit");
@@ -228,6 +262,9 @@ public class ReaderController {
     }
     @RequestMapping("reader_edit_do_r.html")
     public String readerInfoEditDoReader(HttpServletRequest request, String name, String sex, String birth, String address, String telcode, RedirectAttributes redirectAttributes){
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         ReaderCard readerCard=(ReaderCard) request.getSession().getAttribute("readercard");
         if (!readerCard.getName().equals(name)){
             boolean succo=readerCardOperate.updateName(readerCard.getReaderId(),name);
@@ -290,8 +327,5 @@ public class ReaderController {
                 return "redirect:/reader_info.html";
             }
         }
-
-
-
     }
 }

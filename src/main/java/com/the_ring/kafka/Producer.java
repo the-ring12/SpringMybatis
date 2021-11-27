@@ -20,7 +20,7 @@ public class Producer implements Runnable {
         KafkaConfig config = new KafkaConfig();
         Properties properties = config.getProducerProperties(object);
         KafkaProducer<String, Object> producer = new KafkaProducer<>(properties);
-        ProducerRecord<String, Object> record = new ProducerRecord<>("test", "key", object);
+        ProducerRecord<String, Object> record = new ProducerRecord<>("page", "key", object);
         try {
             RecordMetadata recordMetadata = producer.send(record).get();
             System.out.println("partition:" + recordMetadata.partition() + " offset:" + recordMetadata.offset());

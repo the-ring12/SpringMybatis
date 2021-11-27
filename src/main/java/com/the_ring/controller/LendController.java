@@ -4,6 +4,7 @@ import com.the_ring.domain.Book;
 import com.the_ring.domain.ReaderCard;
 import com.the_ring.operate.BookOperate;
 import com.the_ring.operate.LendOperate;
+import com.the_ring.util.PageMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,9 @@ public class LendController {
     private LendOperate lendOperate;
 
     @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
     public void setBookOperate(BookOperate bookOperate) {
         this.bookOperate = bookOperate;
     }
@@ -30,6 +34,9 @@ public class LendController {
 
     @RequestMapping("/lendbook.html")
     public ModelAndView bookLend(HttpServletRequest request) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         long bookId = Integer.parseInt(request.getParameter("bookId"));
         System.out.println(bookId);
         Book book = bookOperate.getBook(bookId);
@@ -41,6 +48,9 @@ public class LendController {
 
     @RequestMapping("/lendbookdo.html")
     public String bookLendDo(HttpServletRequest request, RedirectAttributes redirectAttributes, int readerId) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         long bookId = Integer.parseInt(request.getParameter("id"));
         boolean lendsucc = lendOperate.bookLend(bookId, readerId);
         if (lendsucc) {
@@ -56,6 +66,9 @@ public class LendController {
 
     @RequestMapping("/returnbook.html")
     public String bookReturn(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         long bookId = Integer.parseInt(request.getParameter("bookId"));
         boolean retSucc = lendOperate.bookReturn(bookId);
         if (retSucc) {
@@ -70,6 +83,8 @@ public class LendController {
 
     @RequestMapping("/lendlist.html")
     public ModelAndView lendList() {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
 
         ModelAndView modelAndView = new ModelAndView("admin_lend_list");
         modelAndView.addObject("list", lendOperate.lendList());
@@ -78,6 +93,9 @@ public class LendController {
 
     @RequestMapping("/mylend.html")
     public ModelAndView myLend(HttpServletRequest request) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         ReaderCard readerCard = (ReaderCard) request.getSession().getAttribute("readercard");
         ModelAndView modelAndView = new ModelAndView("reader_lend_list");
         modelAndView.addObject("list", lendOperate.myLendList(readerCard.getReaderId()));

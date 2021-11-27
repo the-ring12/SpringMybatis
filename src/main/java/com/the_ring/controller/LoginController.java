@@ -3,6 +3,7 @@ package com.the_ring.controller;
 import com.the_ring.domain.Admin;
 import com.the_ring.domain.ReaderCard;
 import com.the_ring.operate.LoginOperate;
+import com.the_ring.util.PageMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -22,6 +24,9 @@ public class LoginController {
     private LoginOperate loginOperate;
 
     @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
     public void setLoginOperate(LoginOperate loginOperate) {
         this.loginOperate = loginOperate;
     }
@@ -29,12 +34,18 @@ public class LoginController {
     //负责处理login.html请求
     @RequestMapping(value = {"/", "/login.html"})
     public String toLogin(HttpServletRequest request) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         request.getSession().invalidate();
         return "index";
     }
 
     @RequestMapping("/logout.html")
     public String logout(HttpServletRequest request) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         request.getSession().invalidate();
         return "redirect:/login.html";
     }
@@ -45,7 +56,8 @@ public class LoginController {
     @RequestMapping(value = "api/loginCheck", method = RequestMethod.POST)
     public @ResponseBody
     Object loginCheck(HttpServletRequest request) {
-        System.out.println("loginCheck");
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
 
         int id = Integer.parseInt(request.getParameter("id"));
         String passwd = request.getParameter("passwd");
@@ -75,6 +87,8 @@ public class LoginController {
 
     @RequestMapping("/admin_main.html")
     public ModelAndView toAdminMain(HttpServletResponse response) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
 
         return new ModelAndView("admin_main");
     }
@@ -82,6 +96,8 @@ public class LoginController {
 
     @RequestMapping("/reader_main.html")
     public ModelAndView toReaderMain(HttpServletResponse response) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
 
         return new ModelAndView("reader_main");
     }
@@ -89,12 +105,16 @@ public class LoginController {
 
     @RequestMapping("/admin_repasswd.html")
     public ModelAndView reAdminPasswd() {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
 
         return new ModelAndView("admin_repasswd");
     }
 
     @RequestMapping("/admin_repasswd_do")
     public String reAdminPasswdDo(HttpServletRequest request, String oldPasswd, String newPasswd, String reNewPasswd, RedirectAttributes redirectAttributes) {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
 
         Admin admin = (Admin) request.getSession().getAttribute("admin");
         int id = admin.getAdminId();
@@ -121,6 +141,9 @@ public class LoginController {
     //配置404页面
     @RequestMapping("*")
     public String notFind() {
+        // kafka 生产者发送消息
+        PageMessage.getMessage(request);
+
         return "404";
     }
 
