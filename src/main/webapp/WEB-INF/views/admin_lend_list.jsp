@@ -59,6 +59,11 @@
                         密码修改
                     </a>
                 </li>
+                <li >
+                    <a href="data.html" >
+                        网站数据
+                    </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="login.html"><span class="glyphicon glyphicon-user"></span>&nbsp;${admin.adminId}，已登录</a></li>
