@@ -2,6 +2,7 @@ package com.the_ring.controller;
 
 import com.the_ring.domain.Admin;
 import com.the_ring.domain.Book;
+import com.the_ring.hbase.HBaseRead;
 import com.the_ring.kafka.entity.Page;
 import com.the_ring.operate.BookOperate;
 import com.the_ring.util.IPUtil;
@@ -25,7 +26,7 @@ public class BookController {
     private HttpServletRequest request;
 
     @Autowired
-    private Page page;
+    private HBaseRead hBaseRead;
 
     @Autowired
     public void setBookOperate(BookOperate bookOperate) {
@@ -36,6 +37,9 @@ public class BookController {
     public ModelAndView queryBookDo(HttpServletRequest request, String searchWord) {
         // kafka 生产者发送消息
         PageMessage.getMessage(request);
+
+        // 获取HBase 中的访问次数
+        int count = hBaseRead.getCount(request.getRequestURL().toString());
 
         boolean exist = bookOperate.matchBook(searchWord);
         if (exist) {

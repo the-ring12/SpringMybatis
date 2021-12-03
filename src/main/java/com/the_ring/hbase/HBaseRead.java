@@ -5,6 +5,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
  * Time: 2021/12/1 16:46
  * log: HBase 操作类，从 HBase 中读取数据
  */
+@Repository
 public class HBaseRead {
 
     private Configuration conf;
@@ -24,6 +26,7 @@ public class HBaseRead {
     public HBaseRead() throws IOException {
         conf = new Configuration();
         conf.set("hbase.zookeeper.quorum", "192.168.94.61,192.168.94.62,192.168.94.63");
+        conf.set("hbase.zookeeper.property.clientPort","2181");
         hTable = new HTable(conf, "page");
     }
 
