@@ -20,4 +20,6 @@
 
     <context:component-scan base-package="com.the_ring.kafka.entity"/>
 
+    <context:component-scan base-package="com.the_ring.hbase"/>
+
 </beans>
